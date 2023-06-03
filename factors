@@ -1,28 +1,55 @@
 #!/usr/bin/python3
-"""factorizing a number"""
-from sys import argv
+
+
+import sys
+import time
 
 
 def factor(argValue):
-    """"printing a number"""
-    i = 2
+    '''inputing number
+    '''
+    for i in range(2, int(argValue**0.5)+1):
+        if argValue % i == 0:
+            return (i, argValue//i)
+    return None
 
-    if argValue < 2:
-        return
-    while argValue % i:
-        i += 1
-    print("{:.0f}={:.0f}*{:.0f}".format(argValue, argValue / i, i))
 
-if len(argv) != 2:
-    exit()
+if __name__ == "__main__":
 
-try:
-    with open(argv[1]) as file:
-        line = file.readline()
 
-        while line != "":
-            argValue = int(line.split('\n')[0])
-            factor(argValue)
-            line = file.readline()
-except:
-    pass
+    '''Reading file
+    '''
+    if len(sys.argv) != 2:
+        print("Usage: factors <file>")
+        exit()
+
+
+    fileIn = sys.argv[1]
+
+
+    try:
+        with open(fileIn, 'r') as f:
+            readLi = f.readlines()
+    except FileNotFoundError:
+        print("File not found")
+        exit()
+
+
+    start_time = time.time()
+
+
+    '''loops over each line
+    '''
+    for readL in readLi:
+        argValue = int(readL.strip())
+        factors = factor(argValue)
+        if factors:
+            print(f"{argValue}={factors[0]}*{factors[1]}")
+
+
+        '''If the elapsed time exceeds 5 seconds,
+            the program exits with an error message.
+        '''
+        if time.time() - start_time > 5:
+            print("Time limit exceeded")
+            exit()
