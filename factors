@@ -1,0 +1,28 @@
+#!/usr/bin/python3
+"""factorizing a number"""
+from sys import argv
+
+
+def factor(argValue):
+    """"printing a number"""
+    i = 2
+
+    if argValue < 2:
+        return
+    while argValue % i:
+        i += 1
+    print("{:.0f}={:.0f}*{:.0f}".format(argValue, argValue / i, i))
+
+if len(argv) != 2:
+    exit()
+
+try:
+    with open(argv[1]) as file:
+        line = file.readline()
+
+        while line != "":
+            argValue = int(line.split('\n')[0])
+            factor(argValue)
+            line = file.readline()
+except:
+    pass
